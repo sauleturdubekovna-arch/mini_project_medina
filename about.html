@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About - RelViz</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Main Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+
+  <style>
+    .about-section {
+      padding-top: 100px;
+    }
+
+    .about-hero {
+      background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(255, 217, 61, 0.1));
+      padding: 3rem;
+      border-radius: var(--border-radius-lg);
+      margin-bottom: 3rem;
+      border: 2px solid var(--grey-light);
+      text-align: center;
+      animation: slideUp 0.6s ease-out;
+    }
+
+    .about-hero h1 {
+      margin-bottom: 1rem;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .about-card {
+      background: white;
+      padding: 2rem;
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--shadow-soft);
+      border-left: 4px solid var(--primary-pink);
+      animation: slideUp 0.6s ease-out forwards;
+      opacity: 0;
+    }
+
+    .about-card:nth-child(1) { animation-delay: 0.1s; }
+    .about-card:nth-child(2) { animation-delay: 0.2s; }
+    .about-card:nth-child(3) { animation-delay: 0.3s; }
+    .about-card:nth-child(4) { animation-delay: 0.4s; }
+    .about-card:nth-child(5) { animation-delay: 0.5s; }
+    .about-card:nth-child(6) { animation-delay: 0.6s; }
+
+    .about-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(31, 38, 135, 0.15);
+    }
+
+    .about-card h3 {
+      color: var(--primary-pink);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .card-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--primary-pink), var(--primary-yellow));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .about-card p {
+      margin-bottom: 0.8rem;
+      line-height: 1.7;
+      color: var(--grey-dark);
+    }
+
+    .about-card ul {
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .about-card li {
+      margin-bottom: 0.5rem;
+      color: var(--grey-dark);
+      line-height: 1.6;
+    }
+
+    .tech-stack {
+      background: linear-gradient(135deg, rgba(255, 107, 157, 0.05), rgba(255, 217, 61, 0.05));
+      padding: 2rem;
+      border-radius: var(--border-radius-lg);
+      margin-bottom: 3rem;
+    }
+
+    .tech-stack h3 {
+      color: var(--primary-pink);
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+    }
+
+    .tech-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .tech-item {
+      background: white;
+      padding: 1.5rem;
+      border-radius: var(--border-radius-md);
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(31, 38, 135, 0.05);
+      transition: var(--transition-smooth);
+    }
+
+    .tech-item:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .tech-icon {
+      font-size: 2rem;
+      color: var(--primary-pink);
+      margin-bottom: 0.8rem;
+    }
+
+    .tech-name {
+      font-weight: 700;
+      color: var(--dark-text);
+      margin-bottom: 0.3rem;
+    }
+
+    .tech-desc {
+      font-size: 0.85rem;
+      color: var(--grey-dark);
+    }
+
+    .author-section {
+      background: linear-gradient(135deg, var(--primary-pink), var(--primary-yellow));
+      color: white;
+      padding: 3rem;
+      border-radius: var(--border-radius-lg);
+      text-align: center;
+      animation: slideUp 0.6s ease-out;
+    }
+
+    .author-section h2 {
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .author-section p {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 1.1rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .feature-list {
+      background: white;
+      padding: 2rem;
+      border-radius: var(--border-radius-lg);
+      margin-bottom: 3rem;
+    }
+
+    .feature-list h3 {
+      color: var(--primary-pink);
+      margin-bottom: 1.5rem;
+      font-size: 1.3rem;
+    }
+
+    .feature-list ul {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .feature-list li {
+      padding: 1rem;
+      background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(255, 217, 61, 0.1));
+      border-radius: var(--border-radius-md);
+      border-left: 4px solid var(--primary-pink);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .feature-list i {
+      color: var(--primary-pink);
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .feature-list span {
+      color: var(--dark-text);
+      font-weight: 600;
+    }
+
+    @media (max-width: 768px) {
+      .about-section {
+        padding-top: 80px;
+      }
+
+      .about-hero {
+        padding: 2rem;
+      }
+
+      .about-grid {
+        gap: 1.5rem;
+      }
+
+      .about-card {
+        padding: 1.5rem;
+      }
+
+      .author-section {
+        padding: 2rem;
+      }
+
+      .tech-items {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <i class="fas fa-diagram-project" style="margin-right: 8px;"></i> RelViz
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="visualizer.html">Visualizer</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+      </ul>
+      <div class="burger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <section class="about-section">
+    <div class="container">
+      <!-- Hero -->
+      <div class="about-hero">
+        <h1>About RelViz</h1>
+        <p style="font-size: 1.1rem; margin: 0;">
+          An interactive educational platform for learning discrete mathematics relations, matrices, and graph theory
+        </p>
+      </div>
+
+      <!-- Project Overview -->
+      <div class="about-grid">
+        <div class="about-card">
+          <h3>
+            <div class="card-icon"><i class="fas fa-info-circle"></i></div>
+            Project Overview
+          </h3>
+          <p>
+            RelViz is a comprehensive educational tool designed to help students understand and visualize 
+            discrete mathematics concepts, specifically focusing on relations, matrices, and graphs.
+          </p>
+          <p>
+            This project transforms complex mathematical concepts into interactive, visual experiences 
+            that make learning more intuitive and engaging.
+          </p>
+        </div>
+
+        <div class="about-card">
+          <h3>
+            <div class="card-icon"><i class="fas fa-book"></i></div>
+            Educational Purpose
+          </h3>
+          <p>
+            The platform serves as a learning resource for:
+          </p>
+          <ul>
+            <li>Understanding relations in discrete mathematics</li>
+            <li>Learning matrix representations</li>
+            <li>Visualizing graph structures</li>
+            <li>Analyzing relation properties</li>
+            <li>Exploring equivalence relations and partial orders</li>
+          </ul>
+        </div>
+
+        <div class="about-card">
+          <h3>
+            <div class="card-icon"><i class="fas fa-target"></i></div>
+            Our Mission
+          </h3>
+          <p>
+            We believe that mathematical concepts become clearer when visualized interactively. 
+            Our mission is to make discrete mathematics more accessible and engaging for students 
+            worldwide.
+          </p>
+          <p>
+            By combining theory with interactive visualizations, we help learners develop deeper 
+            understanding and intuition.
+          </p>
+        </div>
+
+        <div class="about-card">
+          <h3>
+            <div class="card-icon"><i class="fas fa-star"></i></div>
+            Key Features
+          </h3>
+          <ul>
+            <li><strong>Interactive Graph Builder:</strong> Create relations visually</li>
+            <li><strong>Real-time Matrix Generation:</strong> See matrix updates instantly</li>
+            <li><strong>Property Analysis:</strong> Automatic relation property detection</li>
+            <li><strong>Educational Content:</strong> Comprehensive theory section</li>
+            <li><strong>Responsive Design:</strong> Works on all devices</li>
+          </ul>
+        </div>
+
+        <div class="about-card">
+          <h3>
+            <div class="card-icon"><i class="fas fa-user-check"></i></div>
+            Author Information
+          </h3>
+          <p>
+            <strong>Project Author:</strong> Medina Turdubekova<br>
+            <strong>Group:</strong> KPOV-23<br>
+            <strong>Academic Year:</strong> 2025-2026<br>
+            <strong>Subject:</strong> Discrete Mathematics
+          </p>
+          <p style="margin-top: 1rem; font-size: 0.95rem; color: var(--grey-medium);">
+            This is a mini-project created as part of the discrete mathematics curriculum.
+          </p>
+        </div>
+
+        <div class="about-card">
+          <h3>
+            <div class="card-icon"><i class="fas fa-clock"></i></div>
+            Project Timeline
+          </h3>
+          <p>
+            <strong>Development Phase:</strong> January - March 2026<br>
+            <strong>Features Implemented:</strong> Q1 2026<br>
+            <strong>Launch Date:</strong> May 2026<br>
+            <strong>Version:</strong> 1.0 (Initial Release)
+          </p>
+        </div>
+      </div>
+
+      <!-- Technology Stack -->
+      <div class="tech-stack">
+        <h3><i class="fas fa-tools" style="margin-right: 0.8rem;"></i> Technology Stack</h3>
+        <p style="color: var(--grey-dark); margin-bottom: 2rem;">
+          Built with modern web technologies using only vanilla JavaScript, HTML, and CSS. 
+          No heavy frameworks or build tools required.
+        </p>
+        <div class="tech-items">
+          <div class="tech-item">
+            <div class="tech-icon"><i class="fab fa-html5"></i></div>
+            <div class="tech-name">HTML5</div>
+            <div class="tech-desc">Semantic markup and structure</div>
+          </div>
+
+          <div class="tech-item">
+            <div class="tech-icon"><i class="fab fa-css3-alt"></i></div>
+            <div class="tech-name">CSS3</div>
+            <div class="tech-desc">Advanced styling and animations</div>
+          </div>
+
+          <div class="tech-item">
+            <div class="tech-icon"><i class="fab fa-js"></i></div>
+            <div class="tech-name">Vanilla JavaScript</div>
+            <div class="tech-desc">ES6+ for interactive features</div>
+          </div>
+
+          <div class="tech-item">
+            <div class="tech-icon"><i class="fas fa-chart-network"></i></div>
+            <div class="tech-name">D3.js</div>
+            <div class="tech-desc">Graph visualization and force simulation</div>
+          </div>
+
+          <div class="tech-item">
+            <div class="tech-icon"><i class="fab fa-google"></i></div>
+            <div class="tech-name">Google Fonts</div>
+            <div class="tech-desc">Premium typography (Nunito, Quicksand)</div>
+          </div>
+
+          <div class="tech-item">
+            <div class="tech-icon"><i class="fas fa-icons"></i></div>
+            <div class="tech-name">FontAwesome</div>
+            <div class="tech-desc">Beautiful icon library</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Features -->
+      <div class="feature-list">
+        <h3><i class="fas fa-check-circle" style="margin-right: 0.8rem;"></i> Main Features</h3>
+        <ul>
+          <li><i class="fas fa-check"></i> <span>Interactive graph builder with drag-and-drop functionality</span></li>
+          <li><i class="fas fa-check"></i> <span>Real-time matrix generation from graph relations</span></li>
+          <li><i class="fas fa-check"></i> <span>Automatic relation property analysis (reflexive, symmetric, transitive, etc.)</span></li>
+          <li><i class="fas fa-check"></i> <span>Vertex management (add, rename, delete)</span></li>
+          <li><i class="fas fa-check"></i> <span>Relation management (add, remove relations)</span></li>
+          <li><i class="fas fa-check"></i> <span>Random graph generation for testing</span></li>
+          <li><i class="fas fa-check"></i> <span>Comprehensive theory section with examples</span></li>
+          <li><i class="fas fa-check"></i> <span>Fully responsive mobile-first design</span></li>
+          <li><i class="fas fa-check"></i> <span>Beautiful glassmorphism UI with animations</span></li>
+          <li><i class="fas fa-check"></i> <span>Zero external dependencies (vanilla stack)</span></li>
+          <li><i class="fas fa-check"></i> <span>Offline-first application (works without internet)</span></li>
+          <li><i class="fas fa-check"></i> <span>Fast performance and smooth interactions</span></li>
+        </ul>
+      </div>
+
+      <!-- Author Section -->
+      <div class="author-section">
+        <h2><i class="fas fa-heart" style="margin-right: 0.8rem;"></i> About the Developer</h2>
+        <p>Created with passion for teaching discrete mathematics</p>
+        <p style="font-size: 1rem; margin: 1.5rem 0;">
+          <strong>Medina Turdubekova</strong><br>
+          Student, Group KPOV-23
+        </p>
+        <p style="font-size: 0.95rem; opacity: 0.9; margin-top: 1rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+          This project demonstrates the power of interactive visualization in education. 
+          By making abstract mathematical concepts tangible and interactive, we can help more students understand and enjoy discrete mathematics.
+        </p>
+      </div>
+
+      <!-- Educational Value -->
+      <div style="background: white; padding: 2rem; border-radius: var(--border-radius-lg); margin-top: 3rem; border-left: 4px solid var(--primary-pink); animation: slideUp 0.6s ease-out;">
+        <h3 style="color: var(--primary-pink); margin-bottom: 1.5rem;">
+          <i class="fas fa-graduation-cap" style="margin-right: 0.8rem;"></i> Educational Value
+        </h3>
+        <p style="margin-bottom: 1rem; line-height: 1.7;">
+          RelViz provides significant educational value by:
+        </p>
+        <ul style="margin-left: 1.5rem; line-height: 1.8;">
+          <li><strong>Visualizing Abstract Concepts:</strong> Making discrete mathematics tangible through interactive visualizations</li>
+          <li><strong>Immediate Feedback:</strong> Instant matrix updates and property analysis helps students understand cause and effect</li>
+          <li><strong>Experimentation:</strong> Students can freely experiment with different relation configurations</li>
+          <li><strong>Multiple Representations:</strong> Seeing the same relation as graphs, matrices, and property lists strengthens understanding</li>
+          <li><strong>Engagement:</strong> Interactive elements make learning more engaging and fun</li>
+          <li><strong>Accessibility:</strong> Works on all devices and requires no special software installation</li>
+        </ul>
+      </div>
+
+      <!-- Future Plans -->
+      <div style="background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(255, 217, 61, 0.1)); padding: 2rem; border-radius: var(--border-radius-lg); margin-top: 2rem; border: 2px solid var(--grey-light);">
+        <h3 style="color: var(--primary-pink); margin-bottom: 1.5rem;">
+          <i class="fas fa-rocket" style="margin-right: 0.8rem;"></i> Future Enhancements
+        </h3>
+        <ul style="margin-left: 1.5rem; line-height: 1.8;">
+          <li>Export/import functionality for graphs and matrices</li>
+          <li>Advanced algorithms for cycle detection and transitive closure</li>
+          <li>Quizzes and interactive exercises</li>
+          <li>Multi-language support</li>
+          <li>Mobile app versions</li>
+          <li>Collaborative features for group learning</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" style="margin-top: 80px;">
+    <div class="container">
+      <div class="footer-content">
+        <p class="footer-text">
+          <strong>RelViz</strong> - An interactive platform for learning discrete mathematics relations
+        </p>
+        <p class="footer-text">
+          Built with Vanilla HTML, CSS, and JavaScript
+        </p>
+        <div class="footer-links">
+          <a href="visualizer.html" class="footer-link">Try Visualizer</a>
+          <a href="theory.html" class="footer-link">Learn Theory</a>
+          <a href="index.html" class="footer-link">Back to Home</a>
+        </div>
+        <p class="footer-text" style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--grey-light); color: var(--grey-medium);">
+          © 2026 Discrete Mathematics Mini Project by Medina Turdubekova (KPOV-23). All rights reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+</body>
+</html>

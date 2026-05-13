@@ -1,0 +1,565 @@
+/* ===========================
+   VISUALIZER PAGE STYLES
+   =========================== */
+
+.visualizer-container {
+  display: flex;
+  gap: 1.5rem;
+  padding-top: 100px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fafbfc 0%, #f5f7fa 100%);
+}
+
+/* ===========================
+   CONTROL PANEL (LEFT)
+   =========================== */
+
+.control-panel {
+  flex: 0 0 320px;
+  background: white;
+  border-radius: var(--border-radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-soft);
+  overflow-y: auto;
+  max-height: calc(100vh - 120px);
+  animation: slideInLeft 0.5s ease-out;
+}
+
+.control-section {
+  margin-bottom: 2rem;
+}
+
+.control-section-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--dark-text);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--primary-pink);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.control-group {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.control-group input {
+  flex: 1;
+  min-width: 120px;
+}
+
+.control-group.full {
+  flex-direction: column;
+}
+
+.control-group.full input {
+  width: 100%;
+}
+
+.vertex-list {
+  background: var(--light-bg);
+  border-radius: var(--border-radius-md);
+  padding: 12px;
+  margin-bottom: 1rem;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.vertex-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: white;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  border-left: 4px solid var(--primary-pink);
+  animation: slideInLeft 0.3s ease-out;
+}
+
+.vertex-item span {
+  font-weight: 600;
+  color: var(--dark-text);
+}
+
+.vertex-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.vertex-btn {
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 4px;
+  background: var(--primary-pink);
+  color: white;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: var(--transition-smooth);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vertex-btn:hover {
+  background: var(--accent-pink);
+  transform: scale(1.1);
+}
+
+.relation-input-group {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.relation-input-group select,
+.relation-input-group input {
+  flex: 1;
+}
+
+.button-group {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.button-group .btn {
+  flex: 1;
+  min-width: 100px;
+  font-size: 0.9rem;
+  padding: 10px 12px;
+}
+
+.btn-danger {
+  background: #ff6b6b;
+  color: white;
+  border: none;
+}
+
+.btn-danger:hover {
+  background: #ee5a52;
+}
+
+.btn-info {
+  background: var(--primary-yellow);
+  color: var(--dark-text);
+  border: none;
+}
+
+.btn-info:hover {
+  background: var(--accent-yellow);
+}
+
+/* ===========================
+   GRAPH VISUALIZATION (CENTER)
+   =========================== */
+
+.graph-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation: slideUp 0.5s ease-out;
+}
+
+.graph-canvas-wrapper {
+  flex: 1;
+  background: white;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+  position: relative;
+  min-height: 500px;
+}
+
+#graph-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.canvas-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--grey-dark);
+  font-size: 1.1rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* ===========================
+   RELATION ANALYSIS PANEL (RIGHT)
+   =========================== */
+
+.analysis-panel {
+  flex: 0 0 280px;
+  background: white;
+  border-radius: var(--border-radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-soft);
+  overflow-y: auto;
+  max-height: calc(100vh - 120px);
+  animation: slideInRight 0.5s ease-out;
+}
+
+.analysis-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--dark-text);
+}
+
+.property-card {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: var(--border-radius-md);
+  border-left: 4px solid var(--grey-light);
+  background: var(--light-bg);
+  transition: var(--transition-smooth);
+}
+
+.property-card.true {
+  background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(255, 217, 61, 0.1));
+  border-left-color: var(--primary-pink);
+  box-shadow: 0 4px 12px rgba(255, 107, 157, 0.1);
+}
+
+.property-card.false {
+  background: linear-gradient(135deg, rgba(200, 200, 200, 0.05), rgba(200, 200, 200, 0.1));
+  border-left-color: var(--grey-light);
+}
+
+.property-name {
+  font-weight: 700;
+  color: var(--dark-text);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.property-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.property-badge.true {
+  background: var(--primary-pink);
+  color: white;
+}
+
+.property-badge.false {
+  background: var(--grey-medium);
+  color: white;
+}
+
+.property-description {
+  font-size: 0.9rem;
+  color: var(--grey-dark);
+  line-height: 1.4;
+}
+
+.matrix-section {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--grey-light);
+}
+
+/* ===========================
+   MATRIX DISPLAY
+   =========================== */
+
+.matrix-container {
+  grid-column: 1 / -1;
+  background: white;
+  border-radius: var(--border-radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-soft);
+  animation: slideUp 0.5s ease-out;
+  animation-delay: 0.1s;
+  overflow-x: auto;
+}
+
+.matrix-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--dark-text);
+}
+
+.matrix {
+  display: inline-block;
+  border-collapse: collapse;
+  min-width: 100%;
+}
+
+.matrix-header {
+  background: linear-gradient(135deg, var(--primary-pink), var(--primary-yellow));
+  color: white;
+  font-weight: 700;
+  padding: 12px 16px;
+  text-align: center;
+  border-radius: 8px 8px 0 0;
+}
+
+.matrix th {
+  background: linear-gradient(135deg, var(--primary-pink), var(--primary-yellow));
+  color: white;
+  font-weight: 700;
+  padding: 12px 16px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.matrix td {
+  padding: 12px 16px;
+  text-align: center;
+  border: 1px solid var(--grey-light);
+  background: white;
+  transition: var(--transition-smooth);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.matrix td:hover {
+  background: rgba(255, 107, 157, 0.1);
+  transform: scale(1.05);
+}
+
+.matrix td.one {
+  background: rgba(255, 107, 157, 0.15);
+  color: var(--primary-pink);
+}
+
+.matrix td.zero {
+  background: rgba(200, 200, 200, 0.05);
+  color: var(--grey-dark);
+}
+
+.matrix-info {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: var(--light-bg);
+  border-radius: var(--border-radius-md);
+  border-left: 4px solid var(--primary-pink);
+}
+
+.matrix-info-title {
+  font-weight: 700;
+  color: var(--dark-text);
+  margin-bottom: 0.5rem;
+}
+
+.matrix-info-text {
+  font-size: 0.9rem;
+  color: var(--grey-dark);
+}
+
+/* ===========================
+   MOBILE RESPONSIVE
+   =========================== */
+
+@media (max-width: 1024px) {
+  .visualizer-container {
+    flex-direction: column;
+    padding-bottom: 2rem;
+  }
+
+  .control-panel,
+  .analysis-panel {
+    flex: 0 0 auto;
+    max-height: 400px;
+  }
+
+  .graph-section {
+    order: 2;
+  }
+
+  .analysis-panel {
+    order: 3;
+  }
+
+  .matrix-container {
+    order: 4;
+  }
+}
+
+@media (max-width: 768px) {
+  .visualizer-container {
+    padding-top: 80px;
+    gap: 1rem;
+  }
+
+  .control-panel,
+  .analysis-panel {
+    flex: 0 0 auto;
+    max-height: 300px;
+  }
+
+  .graph-canvas-wrapper {
+    min-height: 300px;
+  }
+
+  .control-panel {
+    padding: 16px;
+  }
+
+  .analysis-panel {
+    padding: 16px;
+  }
+
+  .matrix-container {
+    padding: 1rem;
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+
+  .button-group .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .visualizer-container {
+    padding-top: 80px;
+    gap: 0.8rem;
+  }
+
+  .control-panel,
+  .analysis-panel {
+    max-height: 250px;
+    flex: 0 0 auto;
+  }
+
+  .graph-canvas-wrapper {
+    min-height: 250px;
+  }
+
+  .control-panel,
+  .analysis-panel,
+  .matrix-container {
+    padding: 12px;
+  }
+
+  .control-section-title,
+  .analysis-title,
+  .matrix-title {
+    font-size: 0.9rem;
+  }
+
+  .vertex-item,
+  .property-card {
+    font-size: 0.85rem;
+  }
+
+  .matrix td,
+  .matrix th {
+    padding: 8px 10px;
+    font-size: 0.9rem;
+  }
+}
+
+/* ===========================
+   SCROLLBAR STYLING
+   =========================== */
+
+.control-panel::-webkit-scrollbar,
+.analysis-panel::-webkit-scrollbar,
+.vertex-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.control-panel::-webkit-scrollbar-track,
+.analysis-panel::-webkit-scrollbar-track,
+.vertex-list::-webkit-scrollbar-track {
+  background: var(--light-bg);
+  border-radius: 10px;
+}
+
+.control-panel::-webkit-scrollbar-thumb,
+.analysis-panel::-webkit-scrollbar-thumb,
+.vertex-list::-webkit-scrollbar-thumb {
+  background: var(--primary-pink);
+  border-radius: 10px;
+}
+
+.control-panel::-webkit-scrollbar-thumb:hover,
+.analysis-panel::-webkit-scrollbar-thumb:hover,
+.vertex-list::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-pink);
+}
+
+/* ===========================
+   FORCE GRAPH CUSTOMIZATION
+   =========================== */
+
+.force-graph-container {
+  width: 100%;
+  height: 100%;
+}
+
+.force-graph-tooltip {
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ===========================
+   NODE & LINK STYLING (SVG)
+   =========================== */
+
+.node {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.node:hover {
+  filter: brightness(1.2);
+}
+
+.node-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-anchor: middle;
+  pointer-events: none;
+  fill: white;
+}
+
+.link {
+  stroke: var(--grey-light);
+  stroke-width: 2px;
+  fill: none;
+  marker-end: url(#arrowhead);
+}
+
+.link:hover {
+  stroke: var(--primary-pink);
+  stroke-width: 3px;
+}
+
+.arrowhead {
+  fill: var(--grey-light);
+}
+
+.link:hover .arrowhead {
+  fill: var(--primary-pink);
+}

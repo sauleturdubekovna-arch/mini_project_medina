@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theory - RelViz</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Main Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+
+  <style>
+    .theory-section {
+      padding-top: 100px;
+    }
+
+    .theory-card {
+      background: white;
+      padding: 2rem;
+      border-radius: var(--border-radius-lg);
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-soft);
+      border-left: 4px solid var(--primary-pink);
+      animation: slideUp 0.6s ease-out forwards;
+      opacity: 0;
+    }
+
+    .theory-card:nth-child(1) { animation-delay: 0.1s; }
+    .theory-card:nth-child(2) { animation-delay: 0.2s; }
+    .theory-card:nth-child(3) { animation-delay: 0.3s; }
+    .theory-card:nth-child(4) { animation-delay: 0.4s; }
+    .theory-card:nth-child(5) { animation-delay: 0.5s; }
+    .theory-card:nth-child(6) { animation-delay: 0.6s; }
+    .theory-card:nth-child(n+7) { animation-delay: 0.7s; }
+
+    .theory-card h3 {
+      color: var(--primary-pink);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .theory-card-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary-pink), var(--primary-yellow));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .theory-card p {
+      margin-bottom: 0.8rem;
+      line-height: 1.7;
+    }
+
+    .theory-card ul {
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .theory-card li {
+      margin-bottom: 0.5rem;
+      color: var(--grey-dark);
+    }
+
+    .example-box {
+      background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(255, 217, 61, 0.1));
+      border-left: 4px solid var(--primary-yellow);
+      padding: 1.5rem;
+      border-radius: var(--border-radius-md);
+      margin: 1rem 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.95rem;
+    }
+
+    .example-label {
+      font-weight: 700;
+      color: var(--primary-pink);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+    }
+
+    .formula {
+      background: var(--light-bg);
+      padding: 1rem;
+      border-radius: var(--border-radius-sm);
+      margin: 1rem 0;
+      font-family: 'Courier New', monospace;
+      color: var(--dark-text);
+      overflow-x: auto;
+    }
+
+    .toc {
+      background: linear-gradient(135deg, rgba(255, 107, 157, 0.05), rgba(255, 217, 61, 0.05));
+      padding: 2rem;
+      border-radius: var(--border-radius-lg);
+      margin-bottom: 3rem;
+      border: 2px solid var(--grey-light);
+    }
+
+    .toc h3 {
+      color: var(--primary-pink);
+      margin-bottom: 1.5rem;
+    }
+
+    .toc ul {
+      list-style: none;
+    }
+
+    .toc li {
+      margin-bottom: 0.8rem;
+    }
+
+    .toc a {
+      color: var(--primary-pink);
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition-smooth);
+    }
+
+    .toc a:hover {
+      color: var(--primary-yellow);
+      transform: translateX(5px);
+    }
+
+    @media (max-width: 768px) {
+      .theory-section {
+        padding-top: 80px;
+      }
+
+      .theory-card {
+        padding: 1.5rem;
+      }
+
+      .formula, .example-box {
+        font-size: 0.9rem;
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <i class="fas fa-diagram-project" style="margin-right: 8px;"></i> RelViz
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="visualizer.html">Visualizer</a></li>
+        <li><a href="theory.html" class="active">Theory</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <div class="burger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <section class="theory-section">
+    <div class="container">
+      <h1 style="text-align: center; margin-bottom: 1rem;">Discrete Mathematics</h1>
+      <p style="text-align: center; color: var(--grey-dark); margin-bottom: 3rem; font-size: 1.1rem;">
+        Understanding Relations, Matrices, and Graph Representations
+      </p>
+
+      <!-- Table of Contents -->
+      <div class="toc">
+        <h3><i class="fas fa-list" style="margin-right: 0.5rem;"></i> Contents</h3>
+        <ul>
+          <li><a href="#relations">1. Relations and Relations on Sets</a></li>
+          <li><a href="#matrix">2. Matrix Representation</a></li>
+          <li><a href="#properties">3. Properties of Relations</a></li>
+          <li><a href="#equivalence">4. Equivalence Relations</a></li>
+          <li><a href="#partial">5. Partial Orders</a></li>
+          <li><a href="#graphs">6. Graph Representation</a></li>
+          <li><a href="#applications">7. Applications</a></li>
+        </ul>
+      </div>
+
+      <!-- Content Cards -->
+      <div id="relationsSection">
+        <div class="theory-card">
+          <h3>
+            <div class="theory-card-icon"><i class="fas fa-link"></i></div>
+            Relations and Relations on Sets
+          </h3>
+          <p>
+            A <strong>relation</strong> from set A to set B is a subset of the Cartesian product A × B. 
+            When A = B, we say R is a relation on A. Relations provide a way to describe connections 
+            between elements.
+          </p>
+          <p><strong>Definition:</strong> Let A be a set. A relation R on A is a subset of A × A.</p>
+          <div class="formula">
+            R ⊆ A × A = {(x, y) : x ∈ A and y ∈ A}
+          </div>
+          <div class="example-box">
+            <div class="example-label">Example</div>
+            If A = {1, 2, 3, 4}, then R = {(1,2), (2,3), (3,4), (2,2)} is a relation on A.
+            We write 1R2 to mean (1,2) ∈ R.
+          </div>
+        </div>
+
+        <div class="theory-card">
+          <h3>
+            <div class="theory-card-icon"><i class="fas fa-table"></i></div>
+            Matrix Representation of Relations
+          </h3>
+          <p>
+            A relation can be represented as an <strong>adjacency matrix</strong> or 
+            <strong>relation matrix</strong>. For a relation R on a finite set A = {a₁, a₂, ..., aₙ}, 
+            the matrix M_R is an n × n matrix where:
+          </p>
+          <div class="formula">
+            M_R[i,j] = 1 if (aᵢ, aⱼ) ∈ R
+            M_R[i,j] = 0 if (aᵢ, aⱼ) ∉ R
+          </div>
+          <p>
+            This binary matrix provides an efficient way to:
+          </p>
+          <ul>
+            <li>Store and manipulate relations in computer systems</li>
+            <li>Perform operations like composition and transposition</li>
+            <li>Analyze properties of relations</li>
+            <li>Convert between different representations</li>
+          </ul>
+        </div>
+
+        <div class="theory-card">
+          <h3>
+            <div class="theory-card-icon"><i class="fas fa-check"></i></div>
+            Properties of Relations
+          </h3>
+          <p>
+            Relations can possess several important properties. A relation R on a set A is:
+          </p>
+          <ul>
+            <li><strong>Reflexive:</strong> For all a ∈ A, (a, a) ∈ R</li>
+            <li><strong>Irreflexive:</strong> For all a ∈ A, (a, a) ∉ R</li>
+            <li><strong>Symmetric:</strong> If (a, b) ∈ R, then (b, a) ∈ R</li>
+            <li><strong>Antisymmetric:</strong> If (a, b) ∈ R and (b, a) ∈ R, then a = b</li>
+            <li><strong>Asymmetric:</strong> If (a, b) ∈ R, then (b, a) ∉ R</li>
+            <li><strong>Transitive:</strong> If (a, b) ∈ R and (b, c) ∈ R, then (a, c) ∈ R</li>
+          </ul>
+          <div class="example-box">
+            <div class="example-label">Example: Equality</div>
+            The equality relation "=" on any set is reflexive, symmetric, and transitive.
+            But it is also antisymmetric: if x = y and y = x, then x = y.
+          </div>
+        </div>
+
+        <div class="theory-card">
+          <h3>
+            <div class="theory-card-icon"><i class="fas fa-equals"></i></div>
+            Equivalence Relations
+          </h3>
+          <p>
+            A relation R on a set A is an <strong>equivalence relation</strong> if it is 
+            <strong>reflexive</strong>, <strong>symmetric</strong>, and <strong>transitive</strong>.
+          </p>
+          <p>
+            Equivalence relations partition a set into disjoint subsets called equivalence classes. 
+            Two elements are in the same equivalence class if and only if they are related.
+          </p>
+          <div class="example-box">
+            <div class="example-label">Example: Modular Arithmetic</div>
+            The congruence relation modulo n is an equivalence relation.
+            Two integers a and b are related if a ≡ b (mod n), meaning they have the same remainder when divided by n.
+          </div>
+          <p>
+            Properties of equivalence relations:
+          </p>
+          <ul>
+            <li>Reflexive: Every element is equivalent to itself</li>
+            <li>Symmetric: If a ~ b, then b ~ a</li>
+            <li>Transitive: If a ~ b and b ~ c, then a ~ c</li>
+            <li>Creates equivalence classes: The set is partitioned into disjoint subsets</li>
+          </ul>
+        </div>
+
+        <div class="theory-card">
+          <h3>
+            <div class="theory-card-icon"><i class="fas fa-sort"></i></div>
+            Partial Orders
+          </h3>
+          <p>
+            A relation R on a set A is a <strong>partial order</strong> if it is 
+            <strong>reflexive</strong>, <strong>antisymmetric</strong>, and <strong>transitive</strong>.
+          </p>
+          <p>
+            A partially ordered set (poset) allows us to compare some elements but not necessarily all. 
+            Unlike total orders, not every pair of elements needs to be comparable.
+          </p>
+          <div class="formula">
+            A total order additionally requires: For all a, b ∈ A, either (a,b) ∈ R or (b,a) ∈ R
+          </div>
+          <div class="example-box">
+            <div class="example-label">Example: Divisibility</div>
+            The divisibility relation "divides" on positive integers is a partial order.
+            For example: 2 divides 4, 4 divides 8, so 2 divides 8 (transitivity).
+            But 3 and 5 are incomparable.
+          </div>
+          <ul>
+            <li><strong>Reflexive:</strong> Every element divides itself</li>
+            <li><strong>Antisymmetric:</strong> If a divides b and b divides a, then a = b</li>
+            <li><strong>Transitive:</strong> If a divides b and b divides c, then a divides c</li>
+          </ul>
+        </div>
+
+        <div class="theory-card">
+          <h3>
+            <div class="theory-card-icon"><i class="fas fa-sitemap"></i></div>
+            Graph Representation
+          </h3>
+          <p>
+            Relations can be visualized as <strong>directed graphs</strong> (digraphs). 
+            In this representation:
+          </p>
+          <ul>
+            <li><strong>Vertices:</strong> Represent elements of the set A</li>
+            <li><strong>Directed Edges:</strong> An arrow from a to b represents (a, b) ∈ R</li>
+            <li><strong>Self-loops:</strong> An edge from a vertex to itself represents reflexivity</li>
+            <li><strong>Undirected edges:</strong> Between a and b represent symmetry</li>
+          </ul>
+          <p>
+            This visual representation makes it easy to:
+          </p>
+          <ul>
+            <li>Identify patterns and cycles</li>
+            <li>Visualize reflexive, symmetric, and transitive properties</li>
+            <li>Understand connectivity and reachability</li>
+            <li>Perform graph algorithms for relation analysis</li>
+          </ul>
+        </div>
+
+        <div class="theory-card">
+          <h3>
+            <div class="theory-card-icon"><i class="fas fa-lightbulb"></i></div>
+            Applications
+          </h3>
+          <p>
+            Relations and their matrix/graph representations have numerous applications:
+          </p>
+          <ul>
+            <li><strong>Database Theory:</strong> Relations as tables in relational databases</li>
+            <li><strong>Computer Networks:</strong> Adjacency matrices for network topology</li>
+            <li><strong>Social Networks:</strong> Friendship and follow relations</li>
+            <li><strong>Scheduling:</strong> Precedence relations and dependency graphs</li>
+            <li><strong>Formal Languages:</strong> State transition relations in automata</li>
+            <li><strong>Data Structures:</strong> Graph algorithms and tree structures</li>
+            <li><strong>Logic and Set Theory:</strong> Fundamental in mathematical proofs</li>
+            <li><strong>AI and Machine Learning:</strong> Knowledge graphs and semantic networks</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Summary Box -->
+      <div style="background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(255, 217, 61, 0.1)); padding: 2rem; border-radius: var(--border-radius-lg); margin-top: 3rem; border-left: 4px solid var(--primary-pink); animation: slideUp 0.6s ease-out;">
+        <h3 style="color: var(--primary-pink); margin-bottom: 1rem;">
+          <i class="fas fa-bookmark" style="margin-right: 0.5rem;"></i> Key Takeaways
+        </h3>
+        <ul style="margin-left: 1.5rem;">
+          <li><strong>Relations</strong> are sets of ordered pairs that define connections between elements</li>
+          <li><strong>Matrices</strong> provide a compact binary representation for efficient computation</li>
+          <li><strong>Graphs</strong> visualize relations and make patterns easier to understand</li>
+          <li><strong>Properties</strong> like reflexivity and transitivity classify relations into important types</li>
+          <li><strong>Equivalence relations</strong> partition sets into disjoint classes</li>
+          <li><strong>Partial orders</strong> define hierarchical structures and partial comparability</li>
+          <li>Understanding these concepts is essential for computer science, mathematics, and logic</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" style="margin-top: 80px;">
+    <div class="container">
+      <div class="footer-content">
+        <p class="footer-text">
+          <strong>RelViz</strong> - An interactive platform for learning discrete mathematics relations
+        </p>
+        <div class="footer-links">
+          <a href="visualizer.html" class="footer-link">Try Visualizer</a>
+          <a href="about.html" class="footer-link">About Project</a>
+        </div>
+        <p class="footer-text" style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--grey-light); color: var(--grey-medium);">
+          © 2026 Discrete Mathematics Mini Project. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+</body>
+</html>

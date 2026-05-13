@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Visualizer - RelViz</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- D3.js -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+
+  <!-- Main Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/visualizer.css">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">
+        <i class="fas fa-diagram-project" style="margin-right: 8px;"></i> RelViz
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="visualizer.html" class="active">Visualizer</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <div class="burger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="visualizer-container">
+    <!-- Control Panel (Left) -->
+    <div class="control-panel">
+      <h2 class="text-center mb-3" style="font-size: 1.3rem;">Graph Builder</h2>
+
+      <!-- Vertices Section -->
+      <div class="control-section">
+        <div class="control-section-title">Add Vertex</div>
+        <div class="control-group full">
+          <input type="text" id="vertexInput" placeholder="Enter vertex name (e.g., A, B, X)" maxlength="20">
+          <button class="btn btn-primary btn-sm" onclick="addVertexClick()">
+            <i class="fas fa-plus"></i> Add Vertex
+          </button>
+        </div>
+
+        <div class="vertex-list" id="vertexList"></div>
+      </div>
+
+      <!-- Relations Section -->
+      <div class="control-section">
+        <div class="control-section-title">Add Relation</div>
+        <div class="control-group">
+          <select id="fromVertex">
+            <option value="">From</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <select id="toVertex">
+            <option value="">To</option>
+          </select>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="addRelationClick()" style="width: 100%;">
+          <i class="fas fa-arrow-right"></i> Add Relation
+        </button>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="control-section">
+        <div class="control-section-title">Quick Actions</div>
+        <div class="button-group">
+          <button class="btn btn-info btn-sm" onclick="generateRandomGraph()">
+            <i class="fas fa-random"></i> Random
+          </button>
+          <button class="btn btn-danger btn-sm" onclick="clearGraph()">
+            <i class="fas fa-trash"></i> Clear
+          </button>
+        </div>
+      </div>
+
+      <!-- Statistics -->
+      <div class="control-section">
+        <div class="control-section-title">Statistics</div>
+        <div style="font-size: 0.9rem; color: var(--grey-dark);">
+          <div style="margin-bottom: 0.5rem;">
+            <strong>Vertices:</strong> <span id="statVertices">0</span>
+          </div>
+          <div style="margin-bottom: 0.5rem;">
+            <strong>Relations:</strong> <span id="statRelations">0</span>
+          </div>
+          <div style="margin-bottom: 0.5rem;">
+            <strong>Density:</strong> <span id="statDensity">0%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Graph Visualization (Center) -->
+    <div class="graph-section">
+      <div style="text-align: center; margin-bottom: 0.5rem;">
+        <h2 style="font-size: 1.3rem; display: inline-block;">Graph Visualization</h2>
+      </div>
+      <div class="graph-canvas-wrapper">
+        <div id="graph-canvas" class="force-graph-container"></div>
+      </div>
+    </div>
+
+    <!-- Analysis Panel (Right) -->
+    <div class="analysis-panel">
+      <h2 class="analysis-title">Relation Properties</h2>
+      <div id="propertiesContainer">
+        <p class="text-grey" style="text-align: center; padding: 2rem 0;">
+          Add vertices and relations to see analysis
+        </p>
+      </div>
+    </div>
+
+    <!-- Matrix Section -->
+    <div class="matrix-container">
+      <h3 class="matrix-title">
+        <i class="fas fa-table" style="margin-right: 0.5rem;"></i> Relation Matrix
+      </h3>
+      <div id="matrixContainer">
+        <p class="text-grey" style="text-align: center; padding: 2rem 0;">
+          No vertices yet. Add vertices to generate the matrix.
+        </p>
+      </div>
+      <div class="matrix-info" id="matrixInfoContainer" style="display: none;">
+        <div class="matrix-info-title">Matrix Information</div>
+        <div class="matrix-info-text" id="matrixInfoText"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+  <script src="js/matrix-logic.js"></script>
+  <script src="js/relation-properties.js"></script>
+  <script src="js/graph-engine.js"></script>
+
+  <script>
+    /* ===========================
+       VISUALIZER CONTROLLER
+       =========================== */
+
+    let matrix = null;
+    let properties = null;
+    let graphEngine = null;
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      initializeVisualizer();
+    });
+
+    /**
+     * Initialize visualizer
+     */
+    function initializeVisualizer() {
+      matrix = new MatrixLogic();
+      properties = new RelationProperties(matrix);
+      graphEngine = new GraphEngine('graph-canvas');
+
+      updateUI();
+      setupEventListeners();
+
+      // Handle window resize
+      window.addEventListener('resize', () => {
+        setTimeout(() => {
+          graphEngine.resize();
+        }, 250);
+      });
+    }
+
+    /**
+     * Setup event listeners
+     */
+    function setupEventListeners() {
+      // Enter key on inputs
+      document.getElementById('vertexInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') addVertexClick();
+      });
+
+      document.getElementById('fromVertex').addEventListener('change', updateRelationSelects);
+      document.getElementById('toVertex').addEventListener('change', updateRelationSelects);
+    }
+
+    /**
+     * Add vertex from input
+     */
+    function addVertexClick() {
+      const input = document.getElementById('vertexInput');
+      const name = input.value.trim().toUpperCase();
+
+      if (!name) {
+        AppUtils.showNotification('Please enter a vertex name', 'error');
+        return;
+      }
+
+      if (matrix.addVertex(name)) {
+        graphEngine.addNode(name, name);
+        input.value = '';
+        updateUI();
+        AppUtils.showNotification(`Vertex "${name}" added!`, 'success');
+      } else {
+        AppUtils.showNotification(`Vertex "${name}" already exists!`, 'error');
+      }
+
+      input.focus();
+    }
+
+    /**
+     * Remove vertex
+     */
+    function removeVertex(name) {
+      if (confirm(`Remove vertex "${name}" and all its relations?`)) {
+        matrix.removeVertex(name);
+        graphEngine.removeNode(name);
+        updateUI();
+        AppUtils.showNotification(`Vertex "${name}" removed!`, 'success');
+      }
+    }
+
+    /**
+     * Add relation from selects
+     */
+    function addRelationClick() {
+      const from = document.getElementById('fromVertex').value;
+      const to = document.getElementById('toVertex').value;
+
+      if (!from || !to) {
+        AppUtils.showNotification('Please select both source and target vertices', 'error');
+        return;
+      }
+
+      if (matrix.addRelation(from, to)) {
+        graphEngine.addLink(from, to);
+        updateUI();
+        AppUtils.showNotification(`Relation ${from} → ${to} added!`, 'success');
+      } else {
+        AppUtils.showNotification(`Relation ${from} → ${to} already exists!`, 'error');
+      }
+    }
+
+    /**
+     * Remove relation
+     */
+    function removeRelation(from, to) {
+      matrix.removeRelation(from, to);
+      graphEngine.removeLink(from, to);
+      updateUI();
+      AppUtils.showNotification(`Relation ${from} → ${to} removed!`, 'success');
+    }
+
+    /**
+     * Generate random graph
+     */
+    function generateRandomGraph() {
+      if (matrix.getVerticesCount() > 0) {
+        if (!confirm('Clear current graph and generate random one?')) {
+          return;
+        }
+      }
+
+      matrix.generateRandom(4, 0.35);
+      graphEngine.clear();
+
+      matrix.getVertices().forEach(v => {
+        graphEngine.addNode(v, v);
+      });
+
+      matrix.getRelations().forEach(r => {
+        graphEngine.addLink(r.from, r.to);
+      });
+
+      updateUI();
+      AppUtils.showNotification('Random graph generated!', 'success');
+    }
+
+    /**
+     * Clear all
+     */
+    function clearGraph() {
+      if (matrix.getVerticesCount() === 0) {
+        AppUtils.showNotification('Graph is already empty', 'info');
+        return;
+      }
+
+      if (confirm('Clear all vertices and relations?')) {
+        matrix.clear();
+        graphEngine.clear();
+        updateUI();
+        AppUtils.showNotification('Graph cleared!', 'success');
+      }
+    }
+
+    /**
+     * Update relation select options
+     */
+    function updateRelationSelects() {
+      const fromSelect = document.getElementById('fromVertex');
+      const toSelect = document.getElementById('toVertex');
+      const vertices = matrix.getVertices();
+
+      // Store current selections
+      const fromValue = fromSelect.value;
+      const toValue = toSelect.value;
+
+      // Clear and rebuild options
+      fromSelect.innerHTML = '<option value="">From</option>';
+      toSelect.innerHTML = '<option value="">To</option>';
+
+      vertices.forEach(v => {
+        const option1 = document.createElement('option');
+        option1.value = v;
+        option1.textContent = v;
+        fromSelect.appendChild(option1);
+
+        const option2 = document.createElement('option');
+        option2.value = v;
+        option2.textContent = v;
+        toSelect.appendChild(option2);
+      });
+
+      // Restore selections
+      if (vertices.includes(fromValue)) fromSelect.value = fromValue;
+      if (vertices.includes(toValue)) toSelect.value = toValue;
+    }
+
+    /**
+     * Update UI
+     */
+    function updateUI() {
+      updateVertexList();
+      updateRelationSelects();
+      updateProperties();
+      updateMatrix();
+      updateStatistics();
+    }
+
+    /**
+     * Update vertex list display
+     */
+    function updateVertexList() {
+      const container = document.getElementById('vertexList');
+      const vertices = matrix.getVertices();
+
+      if (vertices.length === 0) {
+        container.innerHTML = '<p class="text-grey" style="text-align: center; padding: 1rem;">No vertices yet</p>';
+        return;
+      }
+
+      container.innerHTML = vertices.map(v => `
+        <div class="vertex-item">
+          <span>${v}</span>
+          <div class="vertex-actions">
+            <button class="vertex-btn" onclick="removeVertex('${v}')" title="Remove">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /**
+     * Update properties display
+     */
+    function updateProperties() {
+      const container = document.getElementById('propertiesContainer');
+
+      if (matrix.getVerticesCount() === 0) {
+        container.innerHTML = '<p class="text-grey" style="text-align: center; padding: 2rem 0;">Add vertices and relations to see analysis</p>';
+        return;
+      }
+
+      const summary = properties.getSummary();
+      const typeLabel = summary.type;
+
+      let html = `
+        <div style="margin-bottom: 1.5rem; padding: 1rem; background: linear-gradient(135deg, var(--primary-pink), var(--primary-yellow)); border-radius: var(--border-radius-md); color: white;">
+          <div style="font-weight: 700; font-size: 0.95rem;">Classification</div>
+          <div style="font-size: 1.1rem; margin-top: 0.5rem;">${typeLabel}</div>
+        </div>
+
+        <div style="margin-bottom: 1rem; padding: 1rem; background: var(--light-bg); border-radius: var(--border-radius-md); border-left: 4px solid var(--primary-pink);">
+          <div style="font-size: 0.85rem; color: var(--grey-dark);">
+            <strong>${summary.matchingProperties}</strong> of <strong>${summary.totalProperties}</strong> properties match
+          </div>
+        </div>
+      `;
+
+      html += properties.createPropertiesHTML();
+
+      container.innerHTML = html;
+    }
+
+    /**
+     * Update matrix display
+     */
+    function updateMatrix() {
+      const container = document.getElementById('matrixContainer');
+      const infoContainer = document.getElementById('matrixInfoContainer');
+
+      if (matrix.getVerticesCount() === 0) {
+        container.innerHTML = '<p class="text-grey" style="text-align: center; padding: 2rem 0;">No vertices yet. Add vertices to generate the matrix.</p>';
+        infoContainer.style.display = 'none';
+        return;
+      }
+
+      container.innerHTML = matrix.createMatrixHTML();
+
+      // Show matrix info
+      const relations = matrix.getRelations();
+      if (relations.length > 0) {
+        infoContainer.style.display = 'block';
+        let infoText = `<strong>Matrix representation of the relation:</strong><br>
+        1 = relation exists, 0 = no relation<br>
+        Total relations: ${relations.length}<br>
+        Matrix density: ${matrix.getDensity()}%`;
+        document.getElementById('matrixInfoText').innerHTML = infoText;
+      } else {
+        infoContainer.style.display = 'none';
+      }
+    }
+
+    /**
+     * Update statistics
+     */
+    function updateStatistics() {
+      document.getElementById('statVertices').textContent = matrix.getVerticesCount();
+      document.getElementById('statRelations').textContent = matrix.getRelationsCount();
+      document.getElementById('statDensity').textContent = matrix.getDensity() + '%';
+    }
+  </script>
+</body>
+</html>
